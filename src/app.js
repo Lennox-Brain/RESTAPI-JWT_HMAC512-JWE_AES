@@ -7,7 +7,7 @@ import morgan from 'morgan';
 import config from './config';
 import errorHandler from './middleware/errorHandler';
 import fourOhFour from './middleware/fourOhFour';
-import root from './routes/root';
+import router from './routes/router';
 
 const app = express()
 
@@ -17,17 +17,18 @@ app.use(express.urlencoded({ extended: true }))
 app.use(cookieParser())
 
 app.use(cors({
-    origin: config.clientOrigins[config.nodeEnv]
+    origin: config.clientOrigins[config.nodeEnv] || '*',
+    methods: ['GET', 'POST', 'PUT', 'DELETE'],
 }))
 
 app.use(helmet())
 app.use(morgan('tiny'))
 
 // Apply routes before error handling
-app.use('/', root)
+app.use('/api/v1', router)
 
 // Apply error handling last
-app.use(fourOhFour)
 app.use(errorHandler)
+app.use('*', fourOhFour);
 
 export default app

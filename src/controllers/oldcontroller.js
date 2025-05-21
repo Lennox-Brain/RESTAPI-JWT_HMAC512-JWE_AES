@@ -32,13 +32,17 @@ export default {
     //post request to store the resource in the database
     viewUserRecord(req, res) {
         
-
-        const token = jwt.sign(userInformation, SECRET_KEY, {
-            algorithm: 'HS512',
-            expiresIn: '1h',
+        return res.status(200).json({
+            message: "User information retrieved successfully",
+            data: userInformation
         });
         
-        res.send(token)
+        // const token = jwt.sign(userInformation, SECRET_KEY, {
+        //     algorithm: 'HS512',
+        //     expiresIn: '1h',
+        // });
+        
+        // res.send(token)
         
         
     },
